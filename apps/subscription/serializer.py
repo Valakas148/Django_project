@@ -10,6 +10,9 @@ class SubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = SubscriptionModel
         fields = ('user', 'subscription_type', 'start_date', 'end_date')
+        read_only_fields = (
+            'user', 'start_date', 'end_date'
+        )
 
     def update(self, instance, validated_data):
         instance.subscription_type = validated_data.get('subscription_type', instance.subscription_type)

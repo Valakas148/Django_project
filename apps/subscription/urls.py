@@ -4,6 +4,6 @@ from apps.subscription.views import SubscriptionCreateListView, SubscriptionList
 
 urlpatterns = [
     path('', SubscriptionCreateListView.as_view()),
-    path('/<int:pk>', SubscriptionListUpdateDeleteView.as_view())
+    path('/put', SubscriptionListUpdateDeleteView.as_view())
 ]
 
