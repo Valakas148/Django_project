@@ -22,7 +22,8 @@ urlpatterns = [
     path('api/cars', include('apps.cars.urls')),
     path('api/users', include('apps.users.urls')),
     path('api/auth', include('apps.auth.urls')),
-    path('api/subs', include('apps.subscription.urls'))
+    path('api/subs', include('apps.subscription.urls')),
+    path('api/announcements', include('apps.announcement.urls')),
 ]
 
 # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

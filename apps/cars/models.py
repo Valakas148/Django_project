@@ -10,17 +10,36 @@ from apps.cars.managers import CarManager
 UserModel = get_user_model()
 
 
+class CarBrand(BaseModel):
+    class Meta:
+        db_table = 'car_brand'
+        ordering = ('-id',)
+
+    name = models.CharField(max_length=100, unique=True)
+
+
 class CarModel(BaseModel):
     class Meta:
         db_table = 'cars'
         ordering = ('-id',)
 
-    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='cars')
-    brand = models.CharField(max_length=100)
+    brand = models.ForeignKey(CarBrand, on_delete=models.CASCADE, related_name='models')
     model = models.CharField(max_length=100)
-    price = models.IntegerField()
     year = models.IntegerField()
     body_type = models.CharField(max_length=10, choices=BodyTypeChoices.choices)
 
-    objects = CarManager()
+
+# class CarModel(BaseModel):
+#     class Meta:
+#         db_table = 'cars'
+#         ordering = ('-id',)
+#
+#     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='cars')
+#     brand = models.CharField(max_length=100)
+#     model = models.CharField(max_length=100)
+#     price = models.IntegerField()
+#     year = models.IntegerField()
+#     body_type = models.CharField(max_length=10, choices=BodyTypeChoices.choices)
+#
+#     objects = CarManager()
 
