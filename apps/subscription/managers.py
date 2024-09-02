@@ -14,3 +14,4 @@ def create_update_subscription(user, subscription_type):
         subscription.end_date = None
     subscription.save()
     return subscription
+

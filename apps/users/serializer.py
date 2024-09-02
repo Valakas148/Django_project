@@ -3,6 +3,8 @@ from django.db.transaction import atomic
 
 from rest_framework import serializers
 
+from apps.subscription.choices.subs_type_choices import SubsTypeChoices
+from apps.subscription.models import SubscriptionModel
 from apps.users.models import UserProfileModel
 
 UserModel = get_user_model()
@@ -60,6 +62,7 @@ class UserSerializer(serializers.ModelSerializer):
 
         user.save()
         UserProfileModel.objects.create(user=user, **profile)
+        SubscriptionModel.objects.create(user=user, subscription_type=SubsTypeChoices.BASIC)
 
         return user
 
