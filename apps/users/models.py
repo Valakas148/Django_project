@@ -24,12 +24,12 @@ class UserModel(AbstractBaseUser, PermissionsMixin, BaseModel):
     # is_buyer = models.BooleanField(default=False)
     is_seller = models.BooleanField(default=False)
     is_manager = models.BooleanField(default=False)
-    is_admin = models.BooleanField(default=False)
+    # is_admin = models.BooleanField(default=False)
     USERNAME_FIELD = 'email'
     objects = UserManager()
 
     def save(self, *args, **kwargs):
-        if not self.is_seller and not self.is_manager and not self.is_admin:
+        if not self.is_seller and not self.is_manager:
              self.is_seller = True
         super().save(*args, **kwargs)
 
