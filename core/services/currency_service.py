@@ -12,17 +12,18 @@ def get_exchange_rates():
 
 def update_prices(announcement):
     rates = get_exchange_rates()
-    original_price = Decimal(announcement.original_price)
     if announcement.original_currency == 'USD':
-        announcement.price_uah = original_price * Decimal(rates['USD'])
-        announcement.price_eur = (original_price * Decimal(rates['USD'])) / Decimal(rates['EUR'])
+        announcement.price_uah = announcement.original_price * Decimal(rates['USD'])
+        announcement.price_eur = announcement.original_price * Decimal(rates['USD']) / Decimal(rates['EUR'])
+        announcement.price_usd = announcement.original_price
     elif announcement.original_currency == 'EUR':
-        announcement.price_uah = original_price * Decimal(rates['EUR'])
-        announcement.price_usd = (original_price * Decimal(rates['EUR'])) / Decimal(rates['USD'])
+        announcement.price_uah = announcement.original_price * Decimal(rates['EUR'])
+        announcement.price_usd = announcement.original_price * Decimal(rates['EUR']) / Decimal(rates['USD'])
+        announcement.price_eur = announcement.original_price
     elif announcement.original_currency == 'UAH':
-        announcement.price_usd = original_price / Decimal(rates['USD'])
-        announcement.price_eur = original_price / Decimal(rates['EUR'])
-        announcement.price_uah = original_price
+        announcement.price_usd = announcement.original_price / Decimal(rates['USD'])
+        announcement.price_eur = announcement.original_price / Decimal(rates['EUR'])
+        announcement.price_uah = announcement.original_price
     else:
         raise ValueError("Unsupported currency type.")
 

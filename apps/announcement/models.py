@@ -1,10 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
-from apps.announcement.managers import AnnouncementManager
 from core.models import BaseModel
 
 from apps.announcement.choices.status_type_choices import StatusTypeChoices
+from apps.announcement.managers import AnnouncementManager
 from apps.cars.models import CarModel
 
 # Create your models here.

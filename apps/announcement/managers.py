@@ -3,11 +3,11 @@ from django.db.models import Avg
 
 
 class AnnouncementManager(models.Manager):
-    def get_average_price_by_region(self, region):
-        return self.filter(place=region).aggregate(avg_price=Avg('original_price'))['avg_price']
+    def get_average_price_by_region(self, region, car_id):
+        return self.filter(place=region, car_id=car_id).aggregate(avg_price=Avg('price_usd'))['avg_price']
 
-    def average_price_in_ukraine(self):
-        return self.aggregate(avg_price=Avg('original_price'))['avg_price']
+    def average_price_in_ukraine(self, car_id):
+        return self.filter(car_id=car_id).aggregate(avg_price=Avg('price_usd'))['avg_price']
 
     def update_view_count(self, announcement_id):
         announcement = self.get(pk=announcement_id)

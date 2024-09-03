@@ -20,8 +20,7 @@ class CarSerializer(serializers.ModelSerializer):
         fields = ('id', 'brand', 'model', 'year', 'body_type')
 
     def create(self, validated_data):
-        brand_data = validated_data.pop('brand')
-        brand, created = CarBrand.objects.get_or_create(name=brand_data['name'])
+        brand = validated_data.pop('brand')
         car = CarModel.objects.create(brand=brand, **validated_data)
         return car
 

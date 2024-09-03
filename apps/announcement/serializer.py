@@ -1,16 +1,22 @@
 from rest_framework import serializers
 from rest_framework.exceptions import PermissionDenied, ValidationError
 
+from core.services.currency_service import update_prices
+from core.services.language_bad_control import LanguageBadCheckService
+
 from apps.announcement.models import Announcement
 from apps.cars.models import CarBrand, CarModel
 from apps.cars.serializer import CarSerializer
 from apps.subscription.choices.subs_type_choices import SubsTypeChoices
-from core.services.currency_service import update_prices
-from core.services.language_bad_control import LanguageBadCheckService
 
 
 class AnnouncementSerializer(serializers.ModelSerializer):
-    car = serializers.PrimaryKeyRelatedField(queryset=CarModel.objects.all())
+    car = serializers.PrimaryKeyRelatedField(
+        queryset=CarModel.objects.all(),
+        error_messages={
+                      'does_not_exist': 'The selected car does not exist.',
+                      }
+        )
     average_price_by_region = serializers.SerializerMethodField()
     average_price_in_ukraine = serializers.SerializerMethodField()
 
@@ -25,28 +31,20 @@ class AnnouncementSerializer(serializers.ModelSerializer):
         'exchange_rate_eur', 'view_count',
                   'views_last_day', 'views_last_week', 'views_last_month', 'average_price_by_region', 'average_price_in_ukraine',)
 
-    def check_lang(self):
-        pass
-
     def update_status(self, status):
         self.status = status
         self.save()
 
-    def validate_car(self, car):
-        if not car:
-            raise ValidationError('The selected car does not exist. Contact to admin to add this car')
-        return car
-
     def get_average_price_by_region(self, obj):
         user = self.context['request'].user
         if user.subscription.subscription_type == SubsTypeChoices.PREMIUM:
-            return Announcement.objects.get_average_price_by_region(obj.place)
+            return Announcement.objects.get_average_price_by_region(obj.place, obj.car.id)
         return None
 
     def get_average_price_in_ukraine(self, obj):
         user = self.context['request'].user
         if user.subscription.subscription_type == SubsTypeChoices.PREMIUM:
-            return Announcement.objects.average_price_in_ukraine()
+            return Announcement.objects.average_price_in_ukraine(obj.car.id)
         return None
 
     def to_representation(self, instance):

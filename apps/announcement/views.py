@@ -3,9 +3,11 @@ from django.shortcuts import render
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 
+from core.services.currency_service import update_prices
+
 from apps.announcement.models import Announcement
 from apps.announcement.serializer import AnnouncementSerializer
-from core.services.currency_service import update_prices
+
 # Create your views here.
 
 
