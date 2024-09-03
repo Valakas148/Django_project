@@ -1,17 +1,29 @@
 from rest_framework import serializers
-from rest_framework.exceptions import PermissionDenied
+from rest_framework.exceptions import PermissionDenied, ValidationError
 
 from apps.announcement.models import Announcement
 from apps.cars.models import CarBrand, CarModel
 from apps.cars.serializer import CarSerializer
 from apps.subscription.choices.subs_type_choices import SubsTypeChoices
+from core.services.currency_service import update_prices
+from core.services.language_bad_control import LanguageBadCheckService
 
 
 class AnnouncementSerializer(serializers.ModelSerializer):
+    car = serializers.PrimaryKeyRelatedField(queryset=CarModel.objects.all())
+    average_price_by_region = serializers.SerializerMethodField()
+    average_price_in_ukraine = serializers.SerializerMethodField()
+
     class Meta:
         model = Announcement
-        fields = ('id', 'user', 'car', 'price', 'place', 'description', 'status', 'created_at', 'updated_at')
-        read_only_fields = ('user', 'status', 'created_at', 'updated_at')
+        fields = ('id', 'user', 'car', 'original_currency', 'original_price', 'price_uah', 'price_usd', 'price_eur',
+                  'exchange_rate_usd', 'exchange_rate_eur', 'place', 'description', 'status','view_count',
+                  'views_last_day', 'views_last_week', 'views_last_month', 'average_price_by_region', 'average_price_in_ukraine', 'created_at',
+                  'updated_at')
+        read_only_fields = (
+        'user', 'status', 'created_at', 'updated_at', 'price_uah', 'price_usd', 'price_eur', 'exchange_rate_usd',
+        'exchange_rate_eur', 'view_count',
+                  'views_last_day', 'views_last_week', 'views_last_month', 'average_price_by_region', 'average_price_in_ukraine',)
 
     def check_lang(self):
         pass
@@ -20,32 +32,81 @@ class AnnouncementSerializer(serializers.ModelSerializer):
         self.status = status
         self.save()
 
+    def validate_car(self, car):
+        if not car:
+            raise ValidationError('The selected car does not exist. Contact to admin to add this car')
+        return car
+
+    def get_average_price_by_region(self, obj):
+        user = self.context['request'].user
+        if user.subscription.subscription_type == SubsTypeChoices.PREMIUM:
+            return Announcement.objects.get_average_price_by_region(obj.place)
+        return None
+
+    def get_average_price_in_ukraine(self, obj):
+        user = self.context['request'].user
+        if user.subscription.subscription_type == SubsTypeChoices.PREMIUM:
+            return Announcement.objects.average_price_in_ukraine()
+        return None
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        user = self.context['request'].user
+
+        if user.subscription.subscription_type == SubsTypeChoices.BASIC:
+            representation.pop('view_count', None)
+            representation.pop('views_last_day', None)
+            representation.pop('views_last_week', None)
+            representation.pop('views_last_month', None)
+            representation.pop('average_price_by_region', None)
+            representation.pop('average_price_in_ukraine', None)
+
+        return representation
+    # def create(self, validated_data):
+    #     user = validated_data.pop('user')
+    #     user_subs = user.subscription
+    #
+    #     if user_subs.subscription_type == SubsTypeChoices.BASIC:
+    #         if user.announcements.count() >= 1:
+    #             raise PermissionDenied("BASIC allows only one active announcement.")
+    #
+    #     announcement = Announcement.objects.create(user=user, **validated_data)
+    #     update_prices(announcement)
+    #     announcement.update_status('active')
+    #     return announcement
+
     def create(self, validated_data):
-        car_data = validated_data.pop('car')
-        brand_data = car_data.pop('brand')
+        user = self.context['request'].user
+        validated_data.pop('user', None)
 
-        brand, created = CarBrand.objects.get_or_create(name=brand_data['name'])
-
-        car, created = CarModel.objects.get_or_create(
-            brand=brand,
-            name=car_data['name'],
-            year=car_data['year'],
-            body_type=car_data['body_type']
-        )
-
-        announcement = Announcement.objects.create(car=car, **validated_data)
-        return announcement
-
-    def save(self, *args, **kwargs):
-        user = kwargs.get('user')
-        if not user:
-            raise ValueError("User must be provided when saving an announcement.")
+        description = validated_data.get('description', '')
+        if LanguageBadCheckService.check_language_bad(description):
+            raise ValidationError("The description contains inappropriate language.")
 
         user_subs = user.subscription
         if user_subs.subscription_type == SubsTypeChoices.BASIC:
             if user.announcements.count() >= 1:
                 raise PermissionDenied("BASIC allows only one car to post")
 
-        self.instance.user = user
-        self.check_lang()
-        super().save(**kwargs)
+        announcement = Announcement.objects.create(user=user, **validated_data)
+        update_prices(announcement)
+        return announcement
+
+    # def create(self, validated_data):
+    #     announcement = Announcement.objects.create(**validated_data)
+    #     update_prices(announcement)
+    #     return announcement
+
+    # def save(self, *args, **kwargs):
+    #     user = kwargs.get('user')
+    #     if not user:
+    #         raise ValueError("User must be provided when saving an announcement.")
+    #
+    #     user_subs = user.subscription
+    #     if user_subs.subscription_type == SubsTypeChoices.BASIC:
+    #         if user.announcements.count() >= 1:
+    #             raise PermissionDenied("BASIC allows only one car to post")
+    #
+    #     self.instance.user = user
+    #     self.check_lang()
+    #     super().save(*args, **kwargs)
