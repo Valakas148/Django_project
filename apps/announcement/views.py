@@ -4,6 +4,7 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.permissions import IsAuthenticated
 
 from core.services.currency_service import update_prices
+from core.services.email_service import EmailService
 
 from apps.announcement.models import Announcement
 from apps.announcement.serializer import AnnouncementSerializer
@@ -26,6 +27,7 @@ class AnnouncementCreateListView(ListCreateAPIView):
     def perform_create(self, serializer):
         announcement = serializer.save(user=self.request.user)
         update_prices(announcement)
+        EmailService.send_test()
         announcement.save()
 
 
@@ -37,9 +39,10 @@ class AnnouncementViewUpdateDelete(RetrieveUpdateDestroyAPIView):
     def perform_update(self, serializer):
         instance = self.get_object()
         serializer.save()
-        if instance.edit_attempts >= 3 and instance.status == 'pending':
-            instance.status = 'inactive'
+        if instance.edit_attempts >= 3 and instance.status == 'inactive':
+            instance.status = 'inactive' # перевірити може і без цього паше
             instance.save()
+            EmailService.send_email_to_manager(announcement_id=instance.id)
 
     def get_object(self):
         announcement = super().get_object()

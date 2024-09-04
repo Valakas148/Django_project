@@ -14,5 +14,11 @@ class EmailService:
         message.send()
 
     @classmethod
+    def send_email_to_manager(cls, announcement_id):
+        context = {'id': announcement_id}
+        manager_email = 'mmj51334@gmail.com'
+        cls.__send_email('mmj51334@gmail.com', 'email_message_to_manager.html', context, 'User exhausted edit attempts')
+
+    @classmethod
     def send_test(cls):
         cls.__send_email('mmj51334@gmail.com', 'email_message_to_manager.html', {}, 'Test Email')
