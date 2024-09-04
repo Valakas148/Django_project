@@ -25,15 +25,11 @@ class AnnouncementSerializer(serializers.ModelSerializer):
         fields = ('id', 'user', 'car', 'original_currency', 'original_price', 'price_uah', 'price_usd', 'price_eur',
                   'exchange_rate_usd', 'exchange_rate_eur', 'place', 'description', 'status','view_count',
                   'views_last_day', 'views_last_week', 'views_last_month', 'average_price_by_region', 'average_price_in_ukraine', 'created_at',
-                  'updated_at')
+                  'updated_at', 'edit_attempts')
         read_only_fields = (
         'user', 'status', 'created_at', 'updated_at', 'price_uah', 'price_usd', 'price_eur', 'exchange_rate_usd',
         'exchange_rate_eur', 'view_count',
-                  'views_last_day', 'views_last_week', 'views_last_month', 'average_price_by_region', 'average_price_in_ukraine',)
-
-    def update_status(self, status):
-        self.status = status
-        self.save()
+                  'views_last_day', 'views_last_week', 'views_last_month', 'average_price_by_region', 'average_price_in_ukraine', 'edit_attempts')
 
     def get_average_price_by_region(self, obj):
         user = self.context['request'].user
@@ -79,7 +75,9 @@ class AnnouncementSerializer(serializers.ModelSerializer):
 
         description = validated_data.get('description', '')
         if LanguageBadCheckService.check_language_bad(description):
-            raise ValidationError("The description contains inappropriate language.")
+            validated_data['status'] = 'pending'
+        else:
+            validated_data['status'] = 'active'
 
         user_subs = user.subscription
         if user_subs.subscription_type == SubsTypeChoices.BASIC:
@@ -89,6 +87,22 @@ class AnnouncementSerializer(serializers.ModelSerializer):
         announcement = Announcement.objects.create(user=user, **validated_data)
         update_prices(announcement)
         return announcement
+
+    def update(self, instance, validated_data):
+        description = validated_data.get('description', instance.description)
+
+        if LanguageBadCheckService.check_language_bad(description):
+            instance.status = 'pending'
+            instance.edit_attempts += 1
+            if instance.edit_attempts >= 3:
+                instance.status = 'inactive'
+        else:
+            instance.status = 'active'
+            instance.edit_attempts = 0
+
+        instance = super().update(instance, validated_data)
+        update_prices(instance)
+        return instance
 
     # def create(self, validated_data):
     #     announcement = Announcement.objects.create(**validated_data)

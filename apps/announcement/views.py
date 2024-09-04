@@ -34,6 +34,13 @@ class AnnouncementViewUpdateDelete(RetrieveUpdateDestroyAPIView):
     queryset = Announcement.objects.all()
     permission_classes = (IsAuthenticated,)
 
+    def perform_update(self, serializer):
+        instance = self.get_object()
+        serializer.save()
+        if instance.edit_attempts >= 3 and instance.status == 'pending':
+            instance.status = 'inactive'
+            instance.save()
+
     def get_object(self):
         announcement = super().get_object()
         Announcement.objects.update_view_count(announcement.id)

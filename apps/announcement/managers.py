@@ -17,3 +17,4 @@ class AnnouncementManager(models.Manager):
         announcement.views_last_month += 1
 
         announcement.save()
+

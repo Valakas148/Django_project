@@ -35,4 +35,6 @@ class Announcement(BaseModel):
     views_last_week = models.PositiveIntegerField(default=0)
     views_last_month = models.PositiveIntegerField(default=0)
 
+    edit_attempts = models.PositiveIntegerField(default=0)
+
     objects = AnnouncementManager()
