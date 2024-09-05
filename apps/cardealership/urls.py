@@ -1,6 +1,6 @@
 from django.urls import path
 
-from apps.cardealership.views import CarDealershipListCreateView, CarDealershipDetailView
+from apps.cardealership.views import CarDealershipDetailView, CarDealershipListCreateView
 
 urlpatterns = [
     path('', CarDealershipListCreateView.as_view()),

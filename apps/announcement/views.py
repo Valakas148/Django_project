@@ -1,8 +1,16 @@
 from django.shortcuts import render
 
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.exceptions import PermissionDenied
+from rest_framework.generics import (
+    DestroyAPIView,
+    ListCreateAPIView,
+    RetrieveAPIView,
+    RetrieveUpdateDestroyAPIView,
+    UpdateAPIView,
+)
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
+from core.permissions.is_auth_or_read_only import IsAuthenticatedOrReadOnly
 from core.services.currency_service import update_prices
 from core.services.email_service import EmailService
 
@@ -15,14 +23,7 @@ from apps.announcement.serializer import AnnouncementSerializer
 class AnnouncementCreateListView(ListCreateAPIView):
     serializer_class = AnnouncementSerializer
     queryset = Announcement.objects.all()
-    permission_classes = (IsAuthenticated,)
-
-    # def perform_create(self, serializer):
-    #     announcement = serializer.save(user=self.request.user)
-    #     update_prices(announcement)
-    #     announcement.check_lang()
-    #     announcement.update_status('active' if announcement.status == 'pending' else 'inactive')
-    #     serializer.save(user=self.request.user)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def perform_create(self, serializer):
         announcement = serializer.save(user=self.request.user)
@@ -31,7 +32,7 @@ class AnnouncementCreateListView(ListCreateAPIView):
         announcement.save()
 
 
-class AnnouncementViewUpdateDelete(RetrieveUpdateDestroyAPIView):
+class AnnouncementViewUpdateDelete(RetrieveAPIView, UpdateAPIView, DestroyAPIView):
     serializer_class = AnnouncementSerializer
     queryset = Announcement.objects.all()
     permission_classes = (IsAuthenticated,)
@@ -40,12 +41,19 @@ class AnnouncementViewUpdateDelete(RetrieveUpdateDestroyAPIView):
         instance = self.get_object()
         serializer.save()
         if instance.edit_attempts >= 3 and instance.status == 'inactive':
-            instance.status = 'inactive' # перевірити може і без цього паше
+            instance.status = 'inactive'
             instance.save()
             EmailService.send_email_to_manager(announcement_id=instance.id)
 
     def get_object(self):
         announcement = super().get_object()
+        if announcement.user != self.request.user:
+            raise PermissionDenied("Its not your announcement, you are not allowed to change it")
         Announcement.objects.update_view_count(announcement.id)
         return announcement
 
+
+class AnnouncementDetailView(RetrieveAPIView):
+    serializer_class = AnnouncementSerializer
+    queryset = Announcement.objects.all()
+    permission_classes = (AllowAny,)

@@ -47,7 +47,7 @@ class AnnouncementSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         user = self.context['request'].user
 
-        if user.subscription.subscription_type == SubsTypeChoices.BASIC:
+        if not user.is_authenticated or user.subscription.subscription_type == SubsTypeChoices.BASIC:
             representation.pop('view_count', None)
             representation.pop('views_last_day', None)
             representation.pop('views_last_week', None)
@@ -56,18 +56,6 @@ class AnnouncementSerializer(serializers.ModelSerializer):
             representation.pop('average_price_in_ukraine', None)
 
         return representation
-    # def create(self, validated_data):
-    #     user = validated_data.pop('user')
-    #     user_subs = user.subscription
-    #
-    #     if user_subs.subscription_type == SubsTypeChoices.BASIC:
-    #         if user.announcements.count() >= 1:
-    #             raise PermissionDenied("BASIC allows only one active announcement.")
-    #
-    #     announcement = Announcement.objects.create(user=user, **validated_data)
-    #     update_prices(announcement)
-    #     announcement.update_status('active')
-    #     return announcement
 
     def create(self, validated_data):
         user = self.context['request'].user
@@ -103,22 +91,3 @@ class AnnouncementSerializer(serializers.ModelSerializer):
         instance = super().update(instance, validated_data)
         update_prices(instance)
         return instance
-
-    # def create(self, validated_data):
-    #     announcement = Announcement.objects.create(**validated_data)
-    #     update_prices(announcement)
-    #     return announcement
-
-    # def save(self, *args, **kwargs):
-    #     user = kwargs.get('user')
-    #     if not user:
-    #         raise ValueError("User must be provided when saving an announcement.")
-    #
-    #     user_subs = user.subscription
-    #     if user_subs.subscription_type == SubsTypeChoices.BASIC:
-    #         if user.announcements.count() >= 1:
-    #             raise PermissionDenied("BASIC allows only one car to post")
-    #
-    #     self.instance.user = user
-    #     self.check_lang()
-    #     super().save(*args, **kwargs)

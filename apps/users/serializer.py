@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db.transaction import atomic
 
 from rest_framework import serializers
+from rest_framework.exceptions import PermissionDenied
 
 from apps.subscription.choices.subs_type_choices import SubsTypeChoices
 from apps.subscription.models import SubscriptionModel
@@ -27,8 +28,8 @@ class UserSerializer(serializers.ModelSerializer):
                   'is_active',
                   'is_staff',
                   'is_seller',
-                  'is_superuser',
                   'is_manager',
+                  'is_superuser',
                   'last_login',
                   'created_at',
                   'updated_at',
@@ -39,8 +40,8 @@ class UserSerializer(serializers.ModelSerializer):
             'is_active',
             'is_staff',
             'is_seller',
+            'is_manager',
             'is_superuser',
-            'is_admin',
             'created_at',
             'updated_at',
             'last_login'
@@ -49,7 +50,7 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'password': {
                 'write_only': True,
-            }
+            },
         }
 
     @atomic
@@ -57,6 +58,7 @@ class UserSerializer(serializers.ModelSerializer):
         profile = validated_data.pop('profile')
         password = validated_data.pop('password', None)
         user = UserModel(**validated_data)
+
         if password:
             user.set_password(password)
 
@@ -65,4 +67,3 @@ class UserSerializer(serializers.ModelSerializer):
         SubscriptionModel.objects.create(user=user, subscription_type=SubsTypeChoices.BASIC)
 
         return user
-

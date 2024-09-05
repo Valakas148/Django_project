@@ -23,7 +23,7 @@ class UserModel(AbstractBaseUser, PermissionsMixin, BaseModel):
     is_staff = models.BooleanField(default=False)
     # is_buyer = models.BooleanField(default=False) як я зрозумів по умові,
     # покупець це просто гість сайту який може дивитись оголошення і інфу про продавця(пошта і номер телефону)
-    # тобто йому авторизація не потрібна
+    # тобто йому авторизація не потрібна бо оголошення можна дивитись всім
     is_seller = models.BooleanField(default=False)
     is_manager = models.BooleanField(default=False)
     # is_admin = models.BooleanField(default=False)
