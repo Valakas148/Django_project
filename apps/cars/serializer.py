@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from rest_framework import serializers
 
 from apps.cars.models import CarBrand, CarModel
@@ -24,6 +25,17 @@ class CarSerializer(serializers.ModelSerializer):
         car = CarModel.objects.create(brand=brand, **validated_data)
         return car
 
+    def validate(self, data):
+        if CarModel.objects.filter(
+            brand=data['brand'],
+            model=data['model'],
+            year=data['year'],
+            body_type=data['body_type']
+        ).exists():
+            raise serializers.ValidationError(
+                "Автомобіль з такою ж маркою, моделлю, роком і типом кузова вже є в БД. Створення ще одного не потрібно."
+            )
+        return data
 
 # class CarSerializer(serializers.ModelSerializer):
 #     class Meta:

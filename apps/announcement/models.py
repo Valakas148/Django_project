@@ -37,4 +37,6 @@ class Announcement(BaseModel):
 
     edit_attempts = models.PositiveIntegerField(default=0)
 
+    # cars_photo можна додати сюди
+
     objects = AnnouncementManager()

@@ -22,6 +22,7 @@ class CarModel(BaseModel):
     class Meta:
         db_table = 'cars'
         ordering = ('-id',)
+        # unique_together = ('brand', 'model', 'year', 'body_type')
 
     brand = models.ForeignKey(CarBrand, on_delete=models.CASCADE, related_name='models')
     model = models.CharField(max_length=100)
