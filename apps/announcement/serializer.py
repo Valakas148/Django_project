@@ -33,13 +33,13 @@ class AnnouncementSerializer(serializers.ModelSerializer):
 
     def get_average_price_by_region(self, obj):
         user = self.context['request'].user
-        if user.subscription.subscription_type == SubsTypeChoices.PREMIUM:
+        if user.is_authenticated and user == obj.user and user.subscription.subscription_type == SubsTypeChoices.PREMIUM:
             return Announcement.objects.get_average_price_by_region(obj.place, obj.car.id)
         return None
 
     def get_average_price_in_ukraine(self, obj):
         user = self.context['request'].user
-        if user.subscription.subscription_type == SubsTypeChoices.PREMIUM:
+        if user.is_authenticated and user == obj.user and user.subscription.subscription_type == SubsTypeChoices.PREMIUM:
             return Announcement.objects.average_price_in_ukraine(obj.car.id)
         return None
 
@@ -47,7 +47,7 @@ class AnnouncementSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         user = self.context['request'].user
 
-        if not user.is_authenticated or user.subscription.subscription_type == SubsTypeChoices.BASIC:
+        if not user.is_authenticated or user != instance.user or user.subscription.subscription_type == SubsTypeChoices.BASIC:
             representation.pop('view_count', None)
             representation.pop('views_last_day', None)
             representation.pop('views_last_week', None)

@@ -6,7 +6,7 @@ from rest_framework.generics import (
     ListCreateAPIView,
     RetrieveAPIView,
     RetrieveUpdateDestroyAPIView,
-    UpdateAPIView,
+    UpdateAPIView, ListAPIView,
 )
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
@@ -57,3 +57,14 @@ class AnnouncementDetailView(RetrieveAPIView):
     serializer_class = AnnouncementSerializer
     queryset = Announcement.objects.all()
     permission_classes = (AllowAny,)
+
+
+class SeeDetailView(ListAPIView):
+    serializer_class = AnnouncementSerializer
+    permission_classes = (IsAuthenticated,)
+    queryset = Announcement.objects.all()
+
+    def get_queryset(self):
+        user = self.request.user
+        return Announcement.objects.filter(user=user)
+
