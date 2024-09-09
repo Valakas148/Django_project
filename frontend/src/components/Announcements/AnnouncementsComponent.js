@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {announcementService} from "../../services/announcementService";
 import AnnouncementComponent from "./AnnouncementComponent";
-import {socketService} from "../../services/socketService";
 
 const AnnouncementsComponent = () => {
 

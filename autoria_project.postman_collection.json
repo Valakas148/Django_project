@@ -1,0 +1,1280 @@
+{
+	"info": {
+		"_postman_id": "ed273f20-6bb0-44b9-a583-a804efa7697b",
+		"name": "autoria_project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "35349257"
+	},
+	"item": [
+		{
+			"name": "cars",
+			"item": [
+				{
+					"name": "brands",
+					"item": [
+						{
+							"name": "get brands",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/cars/brands",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"cars",
+										"brands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "post brands",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "Audi",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "BMW",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Renault",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Volvo",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{host}}/cars/brands",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"cars",
+										"brands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get brands by id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/cars/brands",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"cars",
+										"brands"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get cars",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{host}}/cars/models",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cars",
+								"models"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post cars",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"brand\": \"Audi\",\r\n    \"model\": \"A4\",\r\n    \"year\": 2012,\r\n    \"body_type\": \"Sedan\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/cars/models",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cars",
+								"models"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get car by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/cars/models/2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cars",
+								"models",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "put car",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n                \"brand\": \"BMW\",\r\n            \"model\": \"X6\",\r\n            \"price\": 21000,\r\n            \"year\": 2015,\r\n            \"body_type\": \"SUV\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/cars/models/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cars",
+								"models",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete car",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/cars/models/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cars",
+								"models",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "get users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/users?page=2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"mmj51334@gmail.com\",\r\n    \"password\": \"Pa$$word111\",\r\n        \"profile\":{\r\n        \"name\": \"Vasya\",\r\n        \"surname\": \"Hmil\",\r\n        \"age\": 22,\r\n        \"phone_number\": \"0683081516\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/users",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/users/updel/10",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"updel",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/users/2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update user patch",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "is_manager",
+								"value": "1",
+								"type": "text"
+							},
+							{
+								"key": "is_staff",
+								"value": "true",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{host}}/users/updel/10",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"updel",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "block user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/users/10/block",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"10",
+								"block"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "unblock user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/users/10/unblock",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"10",
+								"unblock"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "to admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/users/10/admins",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"10",
+								"admins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "to manager",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/users/11/managers",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"11",
+								"managers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "post auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const res = pm.response.json()\r",
+									"\r",
+									"pm.environment.set(\"access\", res.access);\r",
+									"pm.environment.set(\"refresh\", res.refresh);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "test1@gmail.com",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "Pa$$word111",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "test2@gmail.com",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "test6@gmail.com",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "admin@gmail.com",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "manager@gmail.com",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "test9@gmail.com",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "boss_auto_owner@gmail.com",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "manager_boss_auto@gmail.com",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "test111@gmail.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/auth",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refresh",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "refresh",
+									"value": "{{refresh}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/auth/refresh/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"refresh",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "subs",
+			"item": [
+				{
+					"name": "get subs",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "subscription_type",
+									"value": "premium",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/subs",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"subs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post subs",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "subscription_type",
+									"value": "premium",
+									"type": "text"
+								},
+								{
+									"key": "user",
+									"value": "4",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/subs",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"subs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update sub",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "subscription_type",
+									"value": "premium",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "subscription_type",
+									"value": "basic",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/subs/put",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"subs",
+								"put"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buy premium",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/subs/buy-premium",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"subs",
+								"buy-premium"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "announcment",
+			"item": [
+				{
+					"name": "get ann",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/announcements?page=6",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"announcements"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post ann",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"car\": 10,\r\n    \"original_currency\": \"USD\",\r\n    \"original_price\": \"5000.00\",\r\n    \"place\": \"Lviv\",\r\n    \"description\": \"продам машину Megane хороший стан.\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/announcements",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"announcements"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get ann by id for all (only active) dont allow another",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/announcements/detail/42",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"announcements",
+								"detail",
+								"42"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change ann",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "description",
+									"value": "продам Хуй машину Megane хороший стан",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "car",
+									"value": "5",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/announcements/45",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"announcements",
+								"45"
+							],
+							"query": [
+								{
+									"key": "original_price",
+									"value": "6000",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change ann",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"car\": 8,\r\n    \"original_currency\": \"USD\",\r\n    \"original_price\": \"5000.00\",\r\n    \"place\": \"Lviv\",\r\n    \"description\": \"продам машину Megane хороший стан.\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/announcements/19",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"announcements",
+								"19"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "see optional details my ann",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/announcements/my-announcements",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"announcements",
+								"my-announcements"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete no active",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/announcements/delete/25",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"announcements",
+								"delete",
+								"25"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "car_dealership",
+			"item": [
+				{
+					"name": "get dealership",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/cardealership",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cardealership"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post dealership",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Boss Auto",
+									"type": "text"
+								},
+								{
+									"key": "place",
+									"value": "Lviv",
+									"type": "text"
+								},
+								{
+									"key": "phone_number",
+									"value": "0937052324",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "boss_auto@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "owner",
+									"value": "9",
+									"description": "юзер айді який буде власником переробити шоб не вказувати це айді а воно само",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/cardealership",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cardealership"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "employee dealership",
+			"item": [
+				{
+					"name": "get employee all",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/employee",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"employee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post employee",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "user",
+									"value": "10",
+									"description": "юзер айді який стане працівником ( може зробити шоб овнер пермішн) і він вказує айді юзера",
+									"type": "text"
+								},
+								{
+									"key": "dealership",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "role",
+									"value": "manager",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/employee?user=10&dealership=1&role=manager",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"employee"
+							],
+							"query": [
+								{
+									"key": "user",
+									"value": "10",
+									"description": "юзер айді який стане працівником ( може зробити шоб овнер пермішн) і він вказує айді юзера"
+								},
+								{
+									"key": "dealership",
+									"value": "1"
+								},
+								{
+									"key": "role",
+									"value": "manager"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get employee",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/employee/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"employee",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

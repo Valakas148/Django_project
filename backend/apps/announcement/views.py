@@ -37,7 +37,7 @@ class AnnouncementCreateListView(ListCreateAPIView):
         announcement.save()
 
 
-class AnnouncementViewUpdateDelete(RetrieveAPIView, UpdateAPIView, DestroyAPIView):
+class AnnouncementViewUpdateDelete(UpdateAPIView, DestroyAPIView):
     serializer_class = AnnouncementSerializer
     queryset = Announcement.objects.all()
     permission_classes = (IsAuthenticated,)
