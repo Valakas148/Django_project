@@ -11,7 +11,7 @@ services:
     ports:
       - "8888:8000"
     restart: on-failure
-    command: >
+    command: >  
       sh -c "python manage.py wait_db && python manage.py runserver 0.0.0.0:8000"
 
   db:
@@ -47,4 +47,3 @@ services:
     restart: on-failure
     command: >
 #      sh -c "celery -A config worker -l info"
-#      sh -c "celery -A config worker -l info -B"
