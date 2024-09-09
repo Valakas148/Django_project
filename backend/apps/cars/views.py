@@ -37,9 +37,6 @@ class CarBrandViewUpdateDelete(RetrieveUpdateDestroyAPIView):
 
 
 class CarCreateListView(ListCreateAPIView):
-    """
-    Get all cars and create
-    """
     serializer_class = CarSerializer
     queryset = CarModel.objects.all()
     permission_classes = (IsAuthenticatedOrReadOnly,)

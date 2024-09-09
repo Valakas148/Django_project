@@ -7,7 +7,6 @@ from apps.announcement.views import (
     AnnouncementViewUpdateDelete,
     SeeDetailView,
 )
-from apps.auth.views import SocketView
 
 urlpatterns = [
     path('', AnnouncementCreateListView.as_view()),

@@ -28,4 +28,3 @@ urlpatterns = [
     path('api/employee', include('apps.employees_dealership.urls')),
 ]
 
-# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
